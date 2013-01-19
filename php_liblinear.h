@@ -18,6 +18,27 @@
 
 /* $Id$ */
 
+/*
+BEGIN_EXTERN_C()
+	extern struct model* train(const struct problem *prob, const struct parameter *param);
+	extern void cross_validation(const struct problem *prob, const struct parameter *param, int nr_fold, double *target);
+	extern double predict_values(const struct model *model_, const struct feature_node *x, double* dec_values);
+	extern double predict(const struct model *model_, const struct feature_node *x);
+	extern double predict_probability(const struct model *model_, const struct feature_node *x, double* prob_estimates);
+	extern int save_model(const char *model_file_name, const struct model *model_);
+	extern struct model *load_model(const char *model_file_name);
+	extern int get_nr_feature(const struct model *model_);
+	extern int get_nr_class(const struct model *model_);
+	extern void get_labels(const struct model *model_, int* label);
+	extern void free_model_content(struct model *model_ptr);
+	extern void free_and_destroy_model(struct model **model_ptr_ptr);
+	extern void destroy_param(struct parameter *param);
+	extern const char *check_parameter(const struct problem *prob, const struct parameter *param);
+	extern int check_probability_model(const struct model *model);
+	extern void set_print_string_function(void (*print_func) (const char*));
+END_EXTERN_C()
+*/
+
 #ifndef PHP_LIBLINEAR_H
 #define PHP_LIBLINEAR_H
 
