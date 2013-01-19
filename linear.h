@@ -66,6 +66,9 @@ const char *check_parameter(const struct problem *prob, const struct parameter *
 int check_probability_model(const struct model *model);
 void set_print_string_function(void (*print_func) (const char*));
 
+
+
+
 #ifdef __cplusplus
 }
 #endif
