@@ -1,3 +1,4 @@
+
 dnl $Id$
 dnl config.m4 for extension liblinear
 
@@ -41,23 +42,31 @@ if test "$PHP_LIBLINEAR" != "no"; then
   dnl fi
 
   dnl # --with-liblinear -> add include path
-  dnl PHP_ADD_INCLUDE($LIBLINEAR_DIR/include)
-
+  dnl PHP_ADD_INCLUDE($LIBLINEAR_DIR/blas)
   dnl # --with-liblinear -> check for lib and symbol presence
-  dnl LIBNAME=liblinear # you may want to change this
-  dnl LIBSYMBOL=liblinear # you most likely want to change this 
+  dnl LIBNAME=liblinear 
+  dnl LIBNAME=$PHP_LIBLINEAR/blas/blas.a
+  dnl LIBSYMBOL=blas.a # you most likely want to change this
 
   dnl PHP_CHECK_LIBRARY($LIBNAME,$LIBSYMBOL,
   dnl [
-  dnl   PHP_ADD_LIBRARY_WITH_PATH($LIBNAME, $LIBLINEAR_DIR/lib, LIBLINEAR_SHARED_LIBADD)
-  dnl   AC_DEFINE(HAVE_LIBLINEARLIB,1,[ ])
+  dnl PHP_ADD_LIBRARY_WITH_PATH($LIBNAME, $LIBLINEAR_DIR/lib, LIBLINEAR_SHARED_LIBADD)
+  dnl AC_DEFINE(HAVE_LIBLINEARLIB,1,[ ])
   dnl ],[
-  dnl   AC_MSG_ERROR([wrong liblinear lib version or lib not found])
+  dnl AC_MSG_ERROR([cd blas; make before continuing])
   dnl ],[
-  dnl   -L$LIBLINEAR_DIR/lib -lm
+  dnl -Lblas -lm
   dnl ])
-  dnl
   dnl PHP_SUBST(LIBLINEAR_SHARED_LIBADD)
+  
+  dnl  PHP_REQUIRE_CXX()
+  dnl  PHP_SUBST(LIBLINEAR_SHARED_LIBADD)
+  PHP_ADD_LIBRARY(stdc++, 1, LIBLINEAR_SHARED_LIBADD)
+  PHP_SUBST(LIBLINEAR_SHARED_LIBADD) 
 
-  PHP_NEW_EXTENSION(liblinear, liblinear.c, $ext_shared)
+  PHP_REQUIRE_CXX()
+  PHP_NEW_EXTENSION(liblinear, liblinear.c linear.cpp tron.cpp blas/daxpy.c  blas/ddot.c  blas/dnrm2.c  blas/dscal.c, $ext_shared)
+  dnl PHP_INSTALL_HEADERS([liblinear], [ linear.h tron.h las/blas.h blas/blasp.h ] )
+  PHP_ADD_BUILD_DIR([$ext_builddir/blas], 1)
+  PHP_ADD_INCLUDE([$ext_builddir/lib])
 fi
