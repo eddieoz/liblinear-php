@@ -12,7 +12,7 @@
   | obtain it through the world-wide-web, please send a note to          |
   | license@php.net so we can mail you a copy immediately.               |
   +----------------------------------------------------------------------+
-  | Author: Edilson Osorio Junior (sorio dot edilson at eddieoz dot com) |
+  | Author: Edilson Osorio Junior (osorio dot edilson at eddieoz dot com)|
   +----------------------------------------------------------------------+
 */
 
@@ -41,45 +41,6 @@ PHP_METHOD(Liblinear, __construct)
 {
 
 }
-
-/*struct liblinear_object {
-    zend_object std;
-    Liblinear *liblinear;
-};
-
-void liblinear_free_storage(void *object TSRMLS_DC)
-{
-    liblinear_object *obj = (liblinear_object *)object;
-    delete obj->liblinear;
-
-    zend_hash_destroy(obj->std.properties);
-    FREE_HASHTABLE(obj->std.properties);
-
-    efree(obj);
-}
-
-zend_object_value liblinear_create_handler(zend_class_entry *type TSRMLS_DC)
-{
-    zval *tmp;
-    zend_object_value retval;
-
-    liblinear_object *obj = (liblinear_object *)emalloc(sizeof(liblinear_object));
-    memset(obj, 0, sizeof(liblinear_object));
-    obj->std.ce = type;
-
-    ALLOC_HASHTABLE(obj->std.properties);
-    zend_hash_init(obj->std.properties, 0, NULL, ZVAL_PTR_DTOR, 0);
-    zend_hash_copy(obj->std.properties, &type->default_properties,
-        (copy_ctor_func_t)zval_add_ref, (void *)&tmp, sizeof(zval *));
-
-    retval.handle = zend_objects_store_put(obj, NULL,
-        liblinear_free_storage, NULL TSRMLS_CC);
-    retval.handlers = &liblinear_object_handlers;
-
-    return retval;
-}*/
-
-
 
 /* If you declare any globals in php_liblinear.h uncomment this:
 ZEND_DECLARE_MODULE_GLOBALS(liblinear)
@@ -258,8 +219,8 @@ PHP_FUNCTION(OZ_predict)
 	char *strg;
 
 	char *OZ_Input = NULL;
-	//char *OZ_Output = NULL;
 	char *OZ_Model = NULL;
+	char *OZ_Prob = NULL;
 	int i;
 	int nr_class;
 	static int (*info)(const char *fmt,...) = &printf;
@@ -274,7 +235,7 @@ PHP_FUNCTION(OZ_predict)
 	static int max_line_len;
 
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ss", &OZ_Input, &arg_len, &OZ_Model, &arg_len) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "sss", &OZ_Input, &arg_len, &OZ_Model, &arg_len, &OZ_Prob, &arg_len) == FAILURE) {
 		return;
 	}
 
@@ -301,7 +262,6 @@ PHP_FUNCTION(OZ_predict)
 
 	nr_class=get_nr_class(model_);
 
-
 	double *prob_estimates=NULL;
 	int j, n;
 	int nr_feature=get_nr_feature(model_);
@@ -309,6 +269,13 @@ PHP_FUNCTION(OZ_predict)
 		n=nr_feature+1;
 	else
 		n=nr_feature;
+
+	//printf ("%s %s", OZ_Prob,flag_predict_probability );
+	//return;
+
+	if (atoi(OZ_Prob) == 1 ){
+		flag_predict_probability = 1;
+	}
 
 	if(flag_predict_probability)
 	{
@@ -412,7 +379,7 @@ PHP_FUNCTION(OZ_predict)
 		sumpt += predict_label*target_label;
 		++total;
 
-	if(model_->param.solver_type==L2R_L2LOSS_SVR ||
+	/*if(model_->param.solver_type==L2R_L2LOSS_SVR ||
 	   model_->param.solver_type==L2R_L1LOSS_SVR_DUAL ||
 	   model_->param.solver_type==L2R_L2LOSS_SVR_DUAL)
 	{
@@ -424,8 +391,10 @@ PHP_FUNCTION(OZ_predict)
         }
 	else
 		info("Accuracy = %g%% (%d/%d)\n",(double) correct/total*100,correct,total);
+	*/ // just dont make sense
 
 	if(flag_predict_probability)
+
 		free(prob_estimates);
 
 	/* do_predict end */
