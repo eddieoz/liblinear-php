@@ -1,1 +1,8 @@
-liblinear
+LIBLINEAR -- A Library for Large Linear Classification
+
+Liblinear originally was developed by C.-H. Ho and C.-J. Lin. More information about the original project
+can be found in: http://www.csie.ntu.edu.tw/~cjlin/liblinear/
+
+
+Liblinear PHP modules was developed by Edilson Osorio Junior (www.eddieoz.com/projects/liblinear) to solve 
+a problem when predicting a large classification data by streaming, using bigdata, cloud and Internet.
