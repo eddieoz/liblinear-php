@@ -1,0 +1,44 @@
+INTRODUCTION
+
+Liblinear is an solver for SVM large classification and regression problems for big data. The liblinear extension wraps this in a PHP module for easy use in PHP scripts. The extension requires PHP 5.3 or above.
+
+Liblinear PHP module was developed to solve a problem when predicting a large classification data by streaming, using big data, cloud and Internet.
+
+From original project, liblinear-1.92, we imported 3 files to got working: linear.h, tron.h and linear.cpp. This must be presented on the project directory to be compiled with.
+
+INSTALLATION
+
+You need Liblinear for training your models, before predicting with PHP.
+Install it from: http://www.csie.ntu.edu.tw/~cjlin/liblinear/
+
+# phpize
+# configure --enable-liblinear
+# make
+# sudo make install
+
+USAGE
+
+This version only enable predicting, using probability from regression solvers or not.
+
+The function: OZ_predict ( '<predict_line>', '<model>', probability_flag 0|1 );
+
+
+EXAMPLE
+
+<?php
+
+$stdin = fopen('php://stdin', 'r');
+
+while ($buffer = fgets($stdin)) {
+        $result = OZ_predict( $buffer, "tests/test.model", 0);
+
+?>
+
+It will receive data from stdin (ex: cat predict.svm | php liblinear.php ) and try to predict that.
+
+MORE EXAMPLES
+
+You will find more usage examples at tests/ and contrib/ directory.
+
+
+
