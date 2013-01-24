@@ -6,5 +6,5 @@ can be found in: http://www.csie.ntu.edu.tw/~cjlin/liblinear/
 We use 3 files from the original project: linear.h, tron.h and linear.cpp. 
 
 
-Liblinear PHP modules was developed by Edilson Osorio Junior (www.eddieoz.com/projects/liblinear) to solve 
+Liblinear PHP modules was developed by Edilson Osorio Junior (www.eddieoz.com/projects/liblinear-php) to solve 
 a problem when predicting a large classification data by streaming, using bigdata, cloud and Internet.

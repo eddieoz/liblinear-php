@@ -11,6 +11,10 @@ INSTALLATION
 You need Liblinear for training your models, before predicting with PHP.
 Install it from: http://www.csie.ntu.edu.tw/~cjlin/liblinear/
 
+Then download the liblinear-php-<version>.tar.gz from http://www.eddieoz.com/projects/liblinear-php
+
+# tar zxvf liblinear-php-<version>.tar.gz
+# cd liblinear-php-<version>
 # phpize
 # configure --enable-liblinear
 # make
